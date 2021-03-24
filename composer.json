@@ -1,0 +1,21 @@
+{
+    "name": "grogg19/static_pages",
+    "description": "Component Static Pages",
+    "authors": [
+        {
+            "name": "Anton Devyatov",
+            "email": "differ@list.ru"
+        }
+    ],
+    "require": {
+        "symfony/var-dumper": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        },
+        "files": [
+            "helpers/helpers.php"
+        ]
+    }
+}
