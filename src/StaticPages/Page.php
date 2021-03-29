@@ -2,66 +2,62 @@
 
 namespace App\StaticPages;
 
-use SplFileObject;
 use SplFileInfo;
 use Exception;
 
 class Page
 {
-    private $parameters;
-
-    private $htmlContent;
+    /**
+     * @var array
+     */
+    private $parameters = [];
 
     /**
-     * @var SplFileObject
+     * @var string
      */
-    public $file;
+    private $htmlContent = '';
+
+    /**
+     * @var SplFileInfo
+     */
+    private $fileInfo;
 
     /**
      * Page constructor.
-     * @param $pageName
+     * @param SplFileInfo $page
+     * @param array $parameters
+     * @param string $htmlContent
      */
-    public function __construct($pageName)
+    public function __construct(SplFileInfo $page, array $parameters, string $htmlContent)
     {
-        try {
-            $this->file = $this->findPageByUrl($pageName);
-            $this->parsePage();
-        } catch (Exception $exception) {
-            return 'Ошибка: ' . $exception->getMessage();
-        }
+        $this->parameters = $parameters;
+        $this->htmlContent = $htmlContent;
+        $this->fileInfo = $page;
     }
 
     /**
-     * @param $pageName
-     * @return SplFileInfo
+     * Возвращает параметры страницы
+     * @return array
      */
-    private function findPageByUrl($pageName)
-    {
-        $fullPath = APP_DIR . 'static-pages' . DIRECTORY_SEPARATOR. $pageName . '.html';
-        return (new SplFileObject($fullPath))->getFileInfo();
-    }
-
-    private function parsePage()
-    {
-        $content = (new SplFileObject($this->file->getRealPath()))->fread($this->file->getSize());
-        list($parameters, $htmlContent) = explode('====', $content);
-        $this->parameters = parse_ini_string($parameters);
-        $this->htmlContent = htmlspecialchars($htmlContent);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }
 
     /**
-     * @return mixed
+     * Возвращает содержимое страницы
+     * @return string
      */
-    public function getHtmlContent()
+    public function getHtmlContent(): string
     {
         return $this->htmlContent;
+    }
+
+    /**
+     * @return SplFileInfo
+     */
+    public function getFileInfo(): SplFileInfo
+    {
+        return $this->fileInfo;
     }
 }

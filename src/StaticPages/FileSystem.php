@@ -6,9 +6,13 @@ namespace App\StaticPages;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
+use SplFileInfo;
 
 class FileSystem
 {
+    /**
+     * @var array
+     */
     private $files = [];
 
     /**
@@ -27,14 +31,17 @@ class FileSystem
     /**
      * @return array
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         return $this->files;
     }
 
-    public function getFile($url)
+    /**
+     * @param $url
+     * @return SplFileInfo
+     */
+    public function getFile($url): SplFileInfo
     {
-        return $this->files[$url . '.htm'];
+        return $this->files[$url];
     }
-
 }
