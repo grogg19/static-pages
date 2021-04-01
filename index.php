@@ -6,18 +6,24 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR .'au
 
 use App\StaticPages\Page;
 use App\StaticPages\PageList;
+use App\StaticPages\File;
 
 define('APP_DIR', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR);
 
-$pages = new PageList('static-pages');
+$pages = (new PageList('static-pages'))->pages;
 
-dump($pages->listPages());
+//dump($pages);
+foreach ($pages as $page) {
+    dump($page->getParameter('title'));
+}
+//dump($pages->getPage('/test'));
 
-$files = new \App\StaticPages\FileSystem('static-pages');
+//mkdir(APP_DIR .'test1/test2', 0777);
 
-dump($files->getFile('test.html'));
+//dump(APP_DIR . 'static-pages/example.html');
+//$page = new Page();
+//$page->makePage();
 
-
-
-
-
+//$file = new File(APP_DIR . 'static-pages/test.html');
+//$page = new Page($file);
+//dump($page);
