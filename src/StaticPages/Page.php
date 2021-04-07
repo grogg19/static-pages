@@ -2,8 +2,8 @@
 
 namespace App\StaticPages;
 
-use SplFileObject;
-use App\StaticPages\File;
+use App\StaticPages\PageCompatible;
+
 /**
  * Class Page
  * @package App\StaticPages
@@ -16,23 +16,19 @@ class Page
     private $parameters = [];
 
     /**
-     * @var string
+     * @var \App\StaticPages\PageCompatible
      */
-    private $htmlContent = '';
-
-    private SplFileObject $file;
+    private PageCompatible $compatibleDataObject;
 
     /**
      * Page constructor.
-     * @param \App\StaticPages\File|null $fileObject
+     * @param \App\StaticPages\PageCompatible|null $compatibleDataObject
      */
-     public function __construct(File $fileObject = null)
+     public function __construct(PageCompatible $compatibleDataObject = null)
     {
-        if($fileObject !== null) {
-            list($parameters, $htmlContent) = explode('====', $fileObject->content);
-            $this->parameters = parse_ini_string($parameters);
-            $this->htmlContent = $htmlContent;
-            $this->file = $fileObject->file;
+        if($compatibleDataObject !== null) {
+            $this->compatibleDataObject = $compatibleDataObject;
+            $this->parameters = $compatibleDataObject->getData();
         }
     }
 
@@ -60,15 +56,7 @@ class Page
      */
     public function getHtmlContent(): string
     {
-        return $this->htmlContent;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFileName(): string
-    {
-        return $this->file->getFilename();
+        return $this->parameters['htmlContent'];
     }
 
     /**
@@ -84,28 +72,32 @@ class Page
      */
     public function setHtmlContent(string $htmlContent): void
     {
-        $this->htmlContent = $htmlContent;
+        $this->parameters['htmlContent'] = $htmlContent;
     }
 
-    public function saveToFile(string $data): bool
+    /**
+     * @param \App\StaticPages\PageCompatible $compatibleDataObject
+     */
+    public function makePage(PageCompatible $compatibleDataObject)
     {
-
-        //dd($file->getRealPath());
-        //$file = new FileSystem($file->getRealPath());
+        $compatibleDataObject->create($this->parameters['url']);
+        $compatibleDataObject->saveData($this->parameters);
     }
 
-    public function makePage()
+    /**
+     *
+     */
+    public function savePage(): void
     {
-        $this->setParameters([
-            'title' => 'Пример страницы',
-            'url' => '/example',
-            'isHidden' => 0,
-            'navigationHidden' => 0
-        ]);
-        $file = new FileSystem();
-        $this->file->fwrite('test saving...');
-        dd($this->file);
-        $file->saveFile($newPage, $this->getParameters());
+        $this->compatibleDataObject->saveData($this->parameters);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->parameters['url'];
     }
 
 

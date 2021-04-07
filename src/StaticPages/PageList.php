@@ -3,9 +3,7 @@
 
 namespace App\StaticPages;
 
-use App\StaticPages\FileSystem;
 use App\StaticPages\Page;
-use SplFileObject;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
@@ -15,7 +13,7 @@ use RecursiveDirectoryIterator;
  */
 class PageList
 {
-    public $pages = [];
+    private $pages = [];
 
     public function __construct(string $path)
     {
@@ -27,20 +25,20 @@ class PageList
         }
     }
 
-//    /**
-//     * @return array
-//     */
-//    public function listPages(): array
-//    {
-//        return $this->pages;
-//    }
+    /**
+     * @return array
+     */
+    public function listPages(): array
+    {
+        return $this->pages;
+    }
 
     /**
      * @param string $url
-     * @return \App\StaticPages\Page
+     * @return \App\StaticPages\Page|null
      */
-    public function getPage(string $url): Page
+    public function getPage(string $url): Page|null
     {
-        return $this->pages[$url];
+        return (!empty($this->pages[$url])) ? $this->pages[$url] : null;
     }
 }

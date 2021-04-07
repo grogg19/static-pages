@@ -10,20 +10,38 @@ use App\StaticPages\File;
 
 define('APP_DIR', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR);
 
-$pages = (new PageList('static-pages'))->pages;
+$pages = (new PageList('static-pages'))->listPages();
 
-//dump($pages);
 foreach ($pages as $page) {
-    dump($page->getParameter('title'));
+    dump($page->getParameters());
 }
+
+//$newPage = new Page();
+//$newPage->makePage();
+
 //dump($pages->getPage('/test'));
 
 //mkdir(APP_DIR .'test1/test2', 0777);
 
 //dump(APP_DIR . 'static-pages/example.html');
-//$page = new Page();
-//$page->makePage();
+
+
+
+
+//$page = new Page;
+//$page->setParameters([
+//    'title' => 'Пример страницы new',
+//    'url' => '/example-new.html',
+//    'isHidden' => 0,
+//    'navigationHidden' => 0
+//]);
+//$page->setHtmlContent('<h1>test</h1>');
+//
+//$file = new File;
+//$page->makePage($file);
+
 
 //$file = new File(APP_DIR . 'static-pages/test.html');
 //$page = new Page($file);
 //dump($page);
+
