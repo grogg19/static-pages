@@ -15,7 +15,7 @@ class PageList
 {
     private $pages = [];
 
-    public function __construct(string $path)
+    public function __construct(string $path = 'static-pages')
     {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)) as $filename)
         {
@@ -37,7 +37,7 @@ class PageList
      * @param string $url
      * @return \App\StaticPages\Page|null
      */
-    public function getPage(string $url): Page|null
+    public function getPageByUrl(string $url): Page|null
     {
         return (!empty($this->pages[$url])) ? $this->pages[$url] : null;
     }

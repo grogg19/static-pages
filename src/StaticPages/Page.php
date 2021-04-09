@@ -68,6 +68,7 @@ class Page
     }
 
     /**
+     * Определяет значение свойства HtmlContent
      * @param string $htmlContent
      */
     public function setHtmlContent(string $htmlContent): void
@@ -76,6 +77,7 @@ class Page
     }
 
     /**
+     * Метод создает новую страницу
      * @param \App\StaticPages\PageCompatible $compatibleDataObject
      */
     public function makePage(PageCompatible $compatibleDataObject)
@@ -85,14 +87,16 @@ class Page
     }
 
     /**
-     *
+     * Метод сохраняет данные страницы
      */
-    public function savePage(): void
+    public function savePage(): string
     {
-        $this->compatibleDataObject->saveData($this->parameters);
+        return $this->compatibleDataObject->saveData($this->parameters)
+            ? 'Данные страницы успешно сохранены' : 'Данные сохранить невозможно';
     }
 
     /**
+     * Возвращает URL страницы
      * @return string
      */
     public function getUrl(): string
@@ -100,5 +104,13 @@ class Page
         return $this->parameters['url'];
     }
 
+
+    /**
+     * @return string
+     */
+    public function deletePage(): string
+    {
+        return $this->compatibleDataObject->delete() ? 'Страница успешно удалена' : 'При удалении страницы произошла ошибка';
+    }
 
 }

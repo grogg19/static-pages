@@ -10,28 +10,41 @@ use App\StaticPages\File;
 
 define('APP_DIR', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR);
 
-$pages = (new PageList('static-pages'))->listPages();
 
-foreach ($pages as $page) {
+// Вывод списка статических страниц
+$pages = new PageList('static-pages');
+foreach ($pages->listPages() as $page) {
     dump($page->getParameters());
 }
 
-//$newPage = new Page();
-//$newPage->makePage();
+dump('Выводим конкретную страницу по Url');
+$page = $pages->getPageByUrl('/example-new2');
+dump($page);
 
-//dump($pages->getPage('/test'));
+//$page->setParameters([
+//    'title' => 'Пример страницы new2',
+//    'url' => '/example-new2',
+//    'isHidden' => 1,
+//    'navigationHidden' => 0
+//]);
+//$page->setHtmlContent('<h1>test save page</h1>');
+//$page->savePage();
 
-//mkdir(APP_DIR .'test1/test2', 0777);
-
-//dump(APP_DIR . 'static-pages/example.html');
 
 
 
+//dump('Удаляем конкретную страницу по Url');
+//dump($pages->getPageByUrl('/test')->deletePage());
+
+
+/**
+ * Пример создания статической страницы
+ */
 
 //$page = new Page;
 //$page->setParameters([
 //    'title' => 'Пример страницы new',
-//    'url' => '/example-new.html',
+//    'url' => '/example-new',
 //    'isHidden' => 0,
 //    'navigationHidden' => 0
 //]);
@@ -41,7 +54,8 @@ foreach ($pages as $page) {
 //$page->makePage($file);
 
 
+
+
 //$file = new File(APP_DIR . 'static-pages/test.html');
 //$page = new Page($file);
 //dump($page);
-

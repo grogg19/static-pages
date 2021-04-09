@@ -24,7 +24,7 @@ class File implements PageCompatible
     public function __construct(string $pathToFile= '')
     {
         if(!empty($pathToFile) && (file_exists($pathToFile))) {
-            $this->file = new SplFileObject($pathToFile);
+            $this->file = new SplFileObject($pathToFile, 'r+');
             $this->getContent();
         }
     }
@@ -89,6 +89,8 @@ class File implements PageCompatible
         $contentFile .= '====' .PHP_EOL;
         $contentFile .= $html;
 
+        $this->file->ftruncate(0);
+        $this->file->fseek(0);
         return $this->file->fwrite($contentFile) ? true : false;
     }
 
@@ -153,7 +155,7 @@ class File implements PageCompatible
     private function checkExistUrl(string $url): bool
     {
         $pages = new PageList($this->staticPageDirectory);
-        return $pages->getPage($url) ? true : false;
+        return $pages->getPageByUrl($url) ? true : false;
     }
 
 }
