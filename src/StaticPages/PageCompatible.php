@@ -28,4 +28,9 @@ interface PageCompatible
      * @return mixed
      */
     public function delete(): bool;
+
+    /**
+     * @return bool
+     */
+    public function checkExistUrl(string $url): bool;
 }

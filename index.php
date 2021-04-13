@@ -7,55 +7,46 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR .'au
 use App\StaticPages\Page;
 use App\StaticPages\PageList;
 use App\StaticPages\File;
+use App\StaticPages\FilesList;
 
 define('APP_DIR', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR);
 
+///** Вывод списка статических страниц */
+//$files = new FilesList('static-pages');
+//$pages = new PageList('static-pages');
+//foreach ($pages->listPages() as $page) {
+//    dump($page->getParameters());
+//}
 
-// Вывод списка статических страниц
-$pages = new PageList('static-pages');
-foreach ($pages->listPages() as $page) {
-    dump($page->getParameters());
-}
+///** Вывод страницы по URL */
+//dump('Выводим конкретную страницу по Url');
+//$page = $pages->getPageByUrl('/example-new');
+//dump($page);
 
-dump('Выводим конкретную страницу по Url');
-$page = $pages->getPageByUrl('/example-new2');
-dump($page);
 
+/** Пример редактирования статической страницы */
 //$page->setParameters([
-//    'title' => 'Пример страницы new2',
-//    'url' => '/example-new2',
+//    'title' => 'Пример страницы new',
+//    'url' => '/example-new',
 //    'isHidden' => 1,
 //    'navigationHidden' => 0
 //]);
 //$page->setHtmlContent('<h1>test save page</h1>');
 //$page->savePage();
 
-
-
-
+/** Пример удаления статической страницы */
 //dump('Удаляем конкретную страницу по Url');
 //dump($pages->getPageByUrl('/test')->deletePage());
 
 
-/**
- * Пример создания статической страницы
- */
+/** Пример создания статической страницы */
 
 //$page = new Page;
 //$page->setParameters([
-//    'title' => 'Пример страницы new',
-//    'url' => '/example-new',
+//    'title' => 'Test page',
+//    'url' => '/test-new',
 //    'isHidden' => 0,
 //    'navigationHidden' => 0
 //]);
-//$page->setHtmlContent('<h1>test</h1>');
-//
-//$file = new File;
-//$page->makePage($file);
-
-
-
-
-//$file = new File(APP_DIR . 'static-pages/test.html');
-//$page = new Page($file);
-//dump($page);
+//$page->setHtmlContent('<h1>Content test</h1>');
+//$page->makePage(new File);

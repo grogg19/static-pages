@@ -3,9 +3,8 @@
 
 namespace App\StaticPages;
 
-use App\StaticPages\Page;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
+use App\StaticPages\Page as Page;
+use App\StaticPages\PageListCompatible as PageListCompatible;
 
 /**
  * Class PageList
@@ -13,16 +12,18 @@ use RecursiveDirectoryIterator;
  */
 class PageList
 {
-    private $pages = [];
+    /**
+     * @var \App\StaticPages\PageListCompatible
+     */
+    private PageListCompatible $pageList;
 
-    public function __construct(string $path = 'static-pages')
+    /**
+     * PageList constructor.
+     * @param \App\StaticPages\PageListCompatible $pageList
+     */
+    public function __construct(PageListCompatible $pageList)
     {
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)) as $filename)
-        {
-            if ($filename->isDir()) continue;
-            $page = new Page(new File($filename->getRealpath()));
-            $this->pages[$page->getParameters()['url']] = $page;
-        }
+        $this->pageList = $pageList;
     }
 
     /**
@@ -30,7 +31,11 @@ class PageList
      */
     public function listPages(): array
     {
-        return $this->pages;
+        $pages = [];
+        foreach ($this->pageList->list() as $item) {
+            $pages[$item->parameters['url']] = new Page($item);
+        }
+        return $pages;
     }
 
     /**
@@ -39,6 +44,13 @@ class PageList
      */
     public function getPageByUrl(string $url): Page|null
     {
-        return (!empty($this->pages[$url])) ? $this->pages[$url] : null;
+        foreach ($this->pageList->list() as $item) {
+
+           if($item->parameters['url'] === $url) {
+               return new Page($item);
+           }
+
+        }
+        return null;
     }
 }

@@ -4,7 +4,7 @@ namespace App\StaticPages;
 
 use SplFileObject;
 use Exception;
-use App\StaticPages\PageCompatible;
+use App\StaticPages\PageCompatible as PageCompatible;
 
 /**
  * Class File
@@ -14,7 +14,7 @@ class File implements PageCompatible
 {
     public SplFileObject $file;
     public array $parameters;
-    private $staticPageDirectory = 'static-pages';
+    private string $staticPagesDirectory = 'static-pages';
 
 
     /**
@@ -32,23 +32,22 @@ class File implements PageCompatible
     /**
      * Метод создает и возвращает новый файл ???????????
      * @param string $url
-     * @return \App\StaticPages\PageCompatible
      * @throws Exception
      */
     public function create(string $url): void
     {
-        $pattern = '/^[a-z0-9_\-\.\/]+$/i';
-
         if($this->checkExistUrl($url)) {
             throw new Exception('Такой url уже существует', 405);
         }
+
+        $pattern = '/^[a-z0-9_\-\.\/]+$/i';
 
         if($url[0] === '/' && preg_match($pattern, $url, $fileName)) {
 
             $fileName = substr($url, 1, strlen($url));
             $fileName = str_replace(['/', '.', ' '], ['-', '', ''], $fileName) ;
 
-            $pathToFile = APP_DIR . $this->staticPageDirectory . DIRECTORY_SEPARATOR . $fileName;
+            $pathToFile = APP_DIR . $this->staticPagesDirectory . DIRECTORY_SEPARATOR . $fileName;
             $increment = 0;
             while(file_exists($pathToFile . '.htm')) {
                 $pathToFile = $pathToFile . '-' . $increment++;
@@ -62,7 +61,7 @@ class File implements PageCompatible
     }
 
     /**
-     * @return \App\StaticPages\PageCompatible
+     * @return array
      * @throws Exception
      */
     public function getData(): array
@@ -91,7 +90,7 @@ class File implements PageCompatible
 
         $this->file->ftruncate(0);
         $this->file->fseek(0);
-        return $this->file->fwrite($contentFile) ? true : false;
+        return (bool) $this->file->fwrite($contentFile);
     }
 
     /**
@@ -152,10 +151,15 @@ class File implements PageCompatible
      * @param string $url
      * @return bool
      */
-    private function checkExistUrl(string $url): bool
+    public function checkExistUrl(string $url): bool
     {
-        $pages = new PageList($this->staticPageDirectory);
-        return $pages->getPageByUrl($url) ? true : false;
+        $filesList = new FilesList();
+        foreach ($filesList->list() as $item) {
+            if($item->parameters['url'] === $url) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

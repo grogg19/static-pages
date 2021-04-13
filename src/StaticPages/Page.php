@@ -2,7 +2,7 @@
 
 namespace App\StaticPages;
 
-use App\StaticPages\PageCompatible;
+use App\StaticPages\PageCompatible as PageCompatible;
 
 /**
  * Class Page
@@ -42,6 +42,7 @@ class Page
     }
 
     /**
+     * Возвращает конкретный параметр страницы
      * @param string $parameter
      * @return mixed|string
      */
@@ -111,6 +112,11 @@ class Page
     public function deletePage(): string
     {
         return $this->compatibleDataObject->delete() ? 'Страница успешно удалена' : 'При удалении страницы произошла ошибка';
+    }
+
+    public function checkExistUrl(string $url): bool
+    {
+        return $this->compatibleDataObject->checkExistUrl($url);
     }
 
 }
