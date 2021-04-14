@@ -27,6 +27,7 @@ class PageList
     }
 
     /**
+     * Возвращает массив объектов Page
      * @return array
      */
     public function listPages(): array
@@ -39,6 +40,7 @@ class PageList
     }
 
     /**
+     * Метод возвращает страницу по её URI
      * @param string $url
      * @return \App\StaticPages\Page|null
      */

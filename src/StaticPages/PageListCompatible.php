@@ -9,6 +9,7 @@ namespace App\StaticPages;
 interface PageListCompatible
 {
     /**
+     * Метод возвращает список страниц
      * @return array
      */
     public function list(): array;
