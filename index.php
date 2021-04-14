@@ -11,7 +11,7 @@ use App\StaticPages\FilesList;
 
 define('APP_DIR', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR);
 
-///** Вывод списка статических страниц */
+/** Вывод списка статических страниц */
 //$files = new FilesList('static-pages');
 //$pages = new PageList('static-pages');
 //foreach ($pages->listPages() as $page) {
@@ -43,10 +43,10 @@ define('APP_DIR', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR);
 
 //$page = new Page;
 //$page->setParameters([
-//    'title' => 'Test page',
-//    'url' => '/test-new',
-//    'isHidden' => 0,
+//    'title' => 'Test page second',
+//    'url' => '/test-page',
+//    'isHidden' => 1,
 //    'navigationHidden' => 0
 //]);
-//$page->setHtmlContent('<h1>Content test</h1>');
+//$page->setHtmlContent('<h1>Content test page second</h1>');
 //$page->makePage(new File);
